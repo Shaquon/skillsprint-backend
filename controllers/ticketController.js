@@ -2,10 +2,11 @@
 const Ticket = require("../models/ticketModel");
 const fakeData = require("./fakeData");
 const HttpError = require("../models/http-error");
+const { validationResult } = require("express-validator");
 
 // Controller functions for tickets
 const TicketController = {
-  getAllTickets: async (req, res) => {
+  getTicketsByUserId: async (req, res) => {
     // Implement logic to get all tickets
   },
   getTicketById: async (req, res, next) => {
@@ -26,19 +27,31 @@ const TicketController = {
 
     res.json(ticket);
   },
-  createTicket: async (req, res) => {
-    const { title, description, primaryLanguage, userComputer, creator } =
-      req.body;
+  createTicket: async (req, res, next) => {
+    const errors = validationResult(req);
 
-    const createdTicket = {
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      throw new HttpError(
+        "Invalid inputs passed, please check your data.",
+        422
+      );
+    }
+
+    const { title, description, creator } = req.body;
+
+    const createdTicket = new Ticket({
       title,
       description,
-      primaryLanguage,
-      userComputer,
       creator,
-    };
+    });
 
-    fakeData.DUMMY_TICKETS.push(createdTicket);
+    try {
+      await createdTicket.save();
+    } catch (err) {
+      const error = new HttpError("Creating ticket failed", 500);
+      return next(error);
+    }
 
     res.status(201).json({ ticket: createdTicket });
   },

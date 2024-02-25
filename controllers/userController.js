@@ -23,14 +23,15 @@ const UserController = {
     }
   },
   signUp: async (req, res) => {
-    const { name, email, password } = req.body;
+    const { username, email, password, role } = req.body;
 
     const createdUser = {
-      name,
+      username,
       email,
       password,
+      role
     };
-    
+
     try {
       const newUser = new User(req.body);
       await newUser.save();
