@@ -11,7 +11,7 @@ const UserController = {
       res.status(500).json({ message: error.message });
     }
   },
-  getUserById: async (req, res) => {
+  login: async (req, res) => {
     try {
       const user = await User.findById(req.params.id);
       if (!user) {
@@ -22,7 +22,15 @@ const UserController = {
       res.status(500).json({ message: error.message });
     }
   },
-  createUser: async (req, res) => {
+  signUp: async (req, res) => {
+    const { name, email, password } = req.body;
+
+    const createdUser = {
+      name,
+      email,
+      password,
+    };
+    
     try {
       const newUser = new User(req.body);
       await newUser.save();
@@ -34,9 +42,8 @@ const UserController = {
   getTicketsByUserId: async (req, res) => {
     try {
       const user = await User.findById(req.params.id);
-      
-    } catch(error) {
-      res.status(400).json({message: error.message})
+    } catch (error) {
+      res.status(400).json({ message: error.message });
     }
   },
   updateUser: async (req, res) => {

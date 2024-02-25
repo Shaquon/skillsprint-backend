@@ -10,4 +10,26 @@ const DUMMY_TICKETS = [
   },
 ];
 
-module.exports = DUMMY_TICKETS;
+const DUMMY_USERS = [
+  {
+    id: "u1",
+    name: "tester1",
+    email: "tester1@gmail.com",
+    password: "tester123",
+  },
+  {
+    id: "u2",
+    name: "tester2",
+    email: "tester2@gmail.com",
+    password: "tester123",
+  },
+  {
+    id: "u3",
+    name: "tester3",
+    email: "tester3@gmail.com",
+    password: "tester123",
+  },
+];
+
+exports.DUMMY_TICKETS = DUMMY_TICKETS;
+exports.DUMMY_USERS = DUMMY_USERS;

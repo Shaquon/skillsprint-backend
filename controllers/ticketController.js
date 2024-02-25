@@ -1,9 +1,7 @@
 // Import the Ticket model
 const Ticket = require("../models/ticketModel");
-const DUMMY_TICKETS = require("./fakeData");
+const fakeData = require("./fakeData");
 const HttpError = require("../models/http-error");
-
-console.log("dummy tickets: ", DUMMY_TICKETS);
 
 // Controller functions for tickets
 const TicketController = {
@@ -14,7 +12,7 @@ const TicketController = {
     // Implement logic to get ticket by ID
     let ticketId = req.params.tid;
 
-    ticket = DUMMY_TICKETS.find((t) => {
+    ticket = fakeData.DUMMY_TICKETS.find((t) => {
       return t.id === ticketId;
     });
 
@@ -29,7 +27,20 @@ const TicketController = {
     res.json(ticket);
   },
   createTicket: async (req, res) => {
-    // Implement logic to create a new ticket
+    const { title, description, primaryLanguage, userComputer, creator } =
+      req.body;
+
+    const createdTicket = {
+      title,
+      description,
+      primaryLanguage,
+      userComputer,
+      creator,
+    };
+
+    fakeData.DUMMY_TICKETS.push(createdTicket);
+
+    res.status(201).json({ ticket: createdTicket });
   },
   updateTicket: async (req, res) => {
     // Implement logic to update a ticket
