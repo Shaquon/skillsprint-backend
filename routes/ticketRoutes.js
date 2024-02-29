@@ -3,6 +3,7 @@ const router = express.Router();
 const TicketController = require("../controllers/ticketController");
 const { check } = require("express-validator");
 
+
 router.get("/", TicketController.getTicketsByUserId);
 
 router.get("/:tid", TicketController.getTicketById);

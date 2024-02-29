@@ -10,19 +10,19 @@ const TicketController = {
     // Implement logic to get all tickets
   },
   getTicketById: async (req, res, next) => {
-    // Implement logic to get ticket by ID
     let ticketId = req.params.tid;
 
-    ticket = fakeData.DUMMY_TICKETS.find((t) => {
-      return t.id === ticketId;
-    });
+    try {
+      ticket = await Ticket.findById(ticketId);
 
-    console.log("ticket: ", ticket, ticketId);
-
-    if (!ticket) {
-      return next(
-        new HttpError("Could not find a ticket for the provided id.", 404)
-      );
+      if (!ticket) {
+        return next(
+          new HttpError("Could not find a ticket for the provided id.", 404)
+        );
+      }
+    } catch (err) {
+      const error = new HttpError(err, 500);
+      return next(error);
     }
 
     res.json(ticket);
