@@ -49,14 +49,56 @@ const TicketController = {
     try {
       await createdTicket.save();
     } catch (err) {
+      console.log("error: ", err);
       const error = new HttpError("Creating ticket failed", 500);
       return next(error);
     }
 
     res.status(201).json({ ticket: createdTicket });
   },
-  updateTicket: async (req, res) => {
-    // Implement logic to update a ticket
+  updateTicket: async (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      throw new HttpError(
+        "Invalid inputs passed, please check your data.",
+        422
+      );
+    }
+
+    const { title, description } = req.body;
+    const ticketId = req.params.tid;
+
+    let ticket;
+
+    try {
+      ticket = await Ticket.findById(ticketId);
+    } catch (err) {
+      const error = new HttpError(
+        "Something went wrong. Could not update tickets.",
+        500
+      );
+
+      return next(error);
+    }
+
+    ticket.title = title;
+    ticket.description = description;
+
+    try {
+      await ticket.save();
+    } catch (err) {
+      console.log("error: ", err);
+      const error = new HttpError(
+        "Something went wrong. Could not update place when trying to save document.",
+        500
+      );
+
+      return next(error);
+    }
+
+    res.status(200).json({ ticket: ticket.toObject({ getters: true }) });
   },
   deleteTicket: async (req, res) => {
     // Implement logic to delete a ticket
