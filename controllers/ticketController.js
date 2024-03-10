@@ -7,7 +7,9 @@ const { validationResult } = require("express-validator");
 // Controller functions for tickets
 const TicketController = {
   getTicketsByUserId: async (req, res) => {
-    // Implement logic to get all tickets
+    const userId = req.params.uid;
+
+    places = Place.find({});
   },
   getTicketById: async (req, res, next) => {
     let ticketId = req.params.tid;
@@ -100,8 +102,26 @@ const TicketController = {
 
     res.status(200).json({ ticket: ticket.toObject({ getters: true }) });
   },
-  deleteTicket: async (req, res) => {
-    // Implement logic to delete a ticket
+  deleteTicket: async (req, res, next) => {
+    const ticketId = req.params.tid;
+
+    let ticket;
+    try {
+      ticket = await Ticket.findByIdAndDelete(ticketId);
+    } catch (err) {
+      const error = new HttpError(
+        "Something went wrong, could not delete ticket.",
+        500
+      );
+      return next(error);
+    }
+
+    if (!ticket) {
+      const error = new HttpError("Could not find ticket for this id.", 404);
+      return next(error);
+    }
+
+    res.status(200).json({ message: "Deleted ticket." });
   },
 };
 
