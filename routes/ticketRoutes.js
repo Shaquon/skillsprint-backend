@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const TicketController = require("../controllers/ticketController");
 const { check } = require("express-validator");
+const checkAuth = require("../middleware/auth");
+
+router.use(checkAuth);
 
 router.get("/", TicketController.getTicketsByUserId);
 
