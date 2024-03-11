@@ -75,7 +75,7 @@ const UserController = {
     try {
       token = jwt.sign(
         { userId: existingUser.id, email: existingUser.email },
-        "your-secret-key",
+        process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );
     } catch (err) {
@@ -92,7 +92,7 @@ const UserController = {
       token: token,
     });
   },
-  signUp: async (req, res, next) => {
+  signup: async (req, res, next) => {
     const { username, email, password, role, specialization } = req.body;
 
     let existingUser;
@@ -159,7 +159,7 @@ const UserController = {
       }
     }
 
-    res.status(201).json({ userId: createdUser.id, email: createdUser.email });
+    res.status(201).json({ userId: createdUser._id, email: createdUser.email });
   },
   getTicketsByUserId: async (req, res, next) => {
     try {

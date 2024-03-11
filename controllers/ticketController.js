@@ -1,6 +1,5 @@
 // Import the Ticket model
 const Ticket = require("../models/ticketModel");
-const fakeData = require("./fakeData");
 const HttpError = require("../models/http-error");
 const { validationResult } = require("express-validator");
 

@@ -22,7 +22,7 @@ router.post(
     check("username").isLength({ min: 3 }),
     check("password").not().isEmpty(),
   ],
-  UserController.signUp
+  UserController.signup
 );
 router.get("/users/:id", checkAuth, UserController.getUserById);
 router.put("/users/:id", checkAuth, UserController.updateUser);
