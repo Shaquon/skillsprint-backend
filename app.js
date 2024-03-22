@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const ticketRoutes = require("./routes/ticketRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use("/api/tickets", ticketRoutes);
+app.use("/api/users", userRoutes);
 
 // Routes
 app.get("/", (req, res) => {

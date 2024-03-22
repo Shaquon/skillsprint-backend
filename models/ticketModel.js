@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const ticketSchema = new mongoose.Schema(
   {
-    userId: {
+    creator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -22,7 +22,6 @@ const ticketSchema = new mongoose.Schema(
       enum: ["open", "closed"],
       default: "open",
     },
-    // Add more fields as needed
   },
   { timestamps: true }
 );
