@@ -22,6 +22,10 @@ const ticketSchema = new mongoose.Schema(
       enum: ["open", "closed"],
       default: "open",
     },
+    conversationId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "conversation",
+    },
   },
   { timestamps: true }
 );
